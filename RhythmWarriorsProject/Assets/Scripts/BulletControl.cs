@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class BulletControl : MonoBehaviour
 {
+    [SerializeField]
+    private int damage;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +26,12 @@ public class BulletControl : MonoBehaviour
         {
             //gameObject.SetActive(false);
             GameObject.Destroy(gameObject);
+        }
+
+        WarriorController wc = target.GetComponent<WarriorController>();
+        if(wc != null)
+        {
+            wc.TakeDamage(damage);
         }
     }
 }

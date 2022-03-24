@@ -9,15 +9,30 @@ public class WarriorController : MonoBehaviour
 
     [SerializeField]
     private Transform bullet;
+
+    [SerializeField]
+    private int maxHealth;
+
+    public int health;
+
+    [SerializeField]
+    private HealthBar HealthBar;
+
+    [SerializeField]
+    private ParticleSystem deathParticles;
+
+
     // Start is called before the first frame update
     void Start()
     {
         m_Transform = gameObject.GetComponent<Transform>();
         bulletPlayerDistanceScale = 1.21f;
+        health = maxHealth;
+        HealthBar.SetHealth(health);
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         Move();
         Fire();
@@ -74,5 +89,31 @@ public class WarriorController : MonoBehaviour
             Transform newBullet = (Transform)Instantiate(bullet, bulletPos, Quaternion.identity);
             newBullet.GetComponent<Rigidbody>().AddForce(shotDirection * 10f);
         }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if(health >= damage)
+        {
+            health -= damage;
+        }
+
+        else
+        {
+            health = 0;
+        }
+
+        HealthBar.SetHealth(health);
+
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Destroy(gameObject);
+        Instantiate(deathParticles, transform.position, Quaternion.identity);
     }
 }
