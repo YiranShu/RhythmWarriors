@@ -64,8 +64,12 @@
     <Compile Include="Assets\Scripts\BulletControl.cs" />
     <Compile Include="Assets\Scripts\EffectObject.cs" />
     <Compile Include="Assets\Scripts\HealthBar.cs" />
+    <Compile Include="Assets\Scripts\MusicController.cs" />
     <Compile Include="Assets\Scripts\Tags.cs" />
     <Compile Include="Assets\Scripts\WarriorController.cs" />
+    <None Include="Assets\Music\03Evans\Evans.txt" />
+    <None Include="Assets\Music\01canon\canon.txt" />
+    <None Include="Assets\Music\02calling\calling.txt" />
     <Reference Include="UnityEngine.Purchasing">
       <HintPath>D:/myFavorite/Games/RhythmWarriors/RhythmWarriorsProject/Library/ScriptAssemblies/UnityEngine.Purchasing.dll</HintPath>
     </Reference>

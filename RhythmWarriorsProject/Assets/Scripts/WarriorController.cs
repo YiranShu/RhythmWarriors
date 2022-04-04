@@ -6,6 +6,12 @@ public class WarriorController : MonoBehaviour
 {
     private Transform m_Transform;
     private float bulletPlayerDistanceScale;
+    private float timeElapsed;
+    private List<int> rhythms;
+    private int index;
+
+    private float velocity;
+    private float angleVelocity;
 
     [SerializeField]
     private Transform bullet;
@@ -27,15 +33,36 @@ public class WarriorController : MonoBehaviour
     {
         m_Transform = gameObject.GetComponent<Transform>();
         bulletPlayerDistanceScale = 1.21f;
+
+        timeElapsed = 0f;
+        rhythms = MusicController.GetRhythms();
+        index = 0;
+
         health = maxHealth;
         HealthBar.SetHealth(health);
+
+        velocity = 0.2f;
+        angleVelocity = 2f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Move();
-        Fire();
+        timeElapsed += 1000 * Time.deltaTime;
+        if(timeElapsed > rhythms[index] + 100)
+        {
+            index++;
+        }
+        if (index < rhythms.Count && rhythms[index] - 100 <= timeElapsed && timeElapsed <= rhythms[index] + 100)
+        {
+            Move();
+            Fire();
+        }
+    }
+
+    void GetRhythms()
+    {
+
     }
 
     void Move()
@@ -43,37 +70,37 @@ public class WarriorController : MonoBehaviour
         if (gameObject.tag == Tags.PLAYER1_TAG && Input.GetKey(KeyCode.W) ||
             gameObject.tag == Tags.PLAYER2_TAG && Input.GetKey(KeyCode.UpArrow))
         {
-            transform.Translate(Vector3.forward * 0.1f, Space.World);
+            transform.Translate(Vector3.forward * velocity, Space.World);
         }
 
         if (gameObject.tag == Tags.PLAYER1_TAG && Input.GetKey(KeyCode.S) ||
             gameObject.tag == Tags.PLAYER2_TAG && Input.GetKey(KeyCode.DownArrow))
         {
-            transform.Translate(Vector3.back * 0.1f, Space.World);
+            transform.Translate(Vector3.back * velocity, Space.World);
         }
 
         if (gameObject.tag == Tags.PLAYER1_TAG && Input.GetKey(KeyCode.A) ||
             gameObject.tag == Tags.PLAYER2_TAG && Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.Translate(Vector3.left * 0.1f, Space.World);
+            transform.Translate(Vector3.left * velocity, Space.World);
         }
 
         if (gameObject.tag == Tags.PLAYER1_TAG && Input.GetKey(KeyCode.D) ||
             gameObject.tag == Tags.PLAYER2_TAG && Input.GetKey(KeyCode.RightArrow))
         {
-            transform.Translate(Vector3.right * 0.1f, Space.World);
+            transform.Translate(Vector3.right * velocity, Space.World);
         }
 
         if (gameObject.tag == Tags.PLAYER1_TAG && Input.GetKey(KeyCode.Q) ||
             gameObject.tag == Tags.PLAYER2_TAG && Input.GetKey(KeyCode.Keypad1))
         {
-            transform.Rotate(Vector3.up, -1.0f);
+            transform.Rotate(Vector3.up, -angleVelocity);
         }
 
         if (gameObject.tag == Tags.PLAYER1_TAG && Input.GetKey(KeyCode.E) ||
             gameObject.tag == Tags.PLAYER2_TAG && Input.GetKey(KeyCode.Keypad2))
         {
-            transform.Rotate(Vector3.up, 1.0f);
+            transform.Rotate(Vector3.up, angleVelocity);
         }
     }
 
